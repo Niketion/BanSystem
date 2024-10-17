@@ -1,0 +1,22 @@
+name: BanSystem
+version: '${project.version}'
+main: com.github.niketion.bansystem.BanSystemPlugin
+api-version: '1.21'
+authors: [Niketion]
+commands:
+  ban:
+    description: "BanSystem command"
+  tempmute:
+    description: "BanSystem command"
+  tempban:
+    description: "BanSystem command"
+  mute:
+    description: "BanSystem command"
+  unmute:
+    description: "BanSystem command"
+  unban:
+    description: "BanSystem command"
+  kick:
+    description: "BanSystem command"
+  bansystem:
+    description: "BanSystem command"
