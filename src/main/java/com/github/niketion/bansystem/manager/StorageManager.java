@@ -32,9 +32,7 @@ public class StorageManager {
 
             String sqlBanPlayer = "CREATE TABLE IF NOT EXISTS BanPlayer (" +
                     "id INT AUTO_INCREMENT PRIMARY KEY, " +
-                    "uuid VARCHAR(36) NOT NULL, " +
-                    "banned BOOLEAN NOT NULL, " +
-                    "muted BOOLEAN NOT NULL" +
+                    "uuid VARCHAR(36) NOT NULL" +
                     ");";
 
             String sqlPunishment = "CREATE TABLE IF NOT EXISTS Punishment (" +
@@ -45,8 +43,7 @@ public class StorageManager {
                     "toDate BIGINT, " +
                     "permanent BOOLEAN NOT NULL, " +
                     "message TEXT, " +
-                    "type VARCHAR(10) NOT NULL, " +
-                    "FOREIGN KEY (idPlayer) REFERENCES BanPlayer(id) ON DELETE CASCADE" +
+                    "type VARCHAR(10) NOT NULL " +
                     ");";
 
             Statement stmt = connection.createStatement();
@@ -144,9 +141,18 @@ public class StorageManager {
 
     public void insertBanPlayer(BanPlayer banPlayer) {
         String sql = "INSERT INTO BanPlayer (uuid) VALUES (?)";
-        try (PreparedStatement stmt = connection.prepareStatement(sql)) {
+        try (PreparedStatement stmt = connection.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS)) {
             stmt.setString(1, banPlayer.getUuid().toString());
+
             stmt.executeUpdate();
+
+            try (ResultSet generatedKeys = stmt.getGeneratedKeys()) {
+                if (generatedKeys.next()) {
+                    banPlayer.setId(generatedKeys.getInt(1));
+                } else {
+                    throw new SQLException("Inserting BanPlayer failed, no ID obtained.");
+                }
+            }
         } catch (SQLException e) {
             throw new RuntimeException(e);
         }

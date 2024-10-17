@@ -10,7 +10,7 @@ import org.bukkit.event.Listener;
 import org.bukkit.plugin.java.JavaPlugin;
 
 public final class BanSystemPlugin extends JavaPlugin {
-    @Getter private StorageManager storageManager;
+    private StorageManager storageManager;
     private BanManager banManager;
 
     @Override
@@ -45,5 +45,9 @@ public final class BanSystemPlugin extends JavaPlugin {
         for (Listener listener : listeners) {
             this.getServer().getPluginManager().registerEvents(listener, this);
         }
+    }
+
+    public StorageManager getStorageManager() {
+        return storageManager;
     }
 }

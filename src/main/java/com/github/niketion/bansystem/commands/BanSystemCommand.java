@@ -42,16 +42,17 @@ public class BanSystemCommand implements CommandExecutor {
             return false;
         }
 
-        banPlayer.getPunishments().forEach((punishment -> {
-            commandSender.sendMessage(String.format("* (ID %s) Staffer: %s, Type: %s, fromDate: %s, toDate: %s, permanent: %s, message: %s",
-                    punishment.getId(),
+        banPlayer.getPunishments().forEach((punishment) -> {
+            commandSender.sendMessage(String.format("* (ID %d) Staffer: %s, Type: %s, fromDate: %s, toDate: %s, permanent: %s, message: %s",
+                    punishment.getId(),  // Assuming getId() returns an int
+                    punishment.getStaffer(), // Correctly included staffer
                     punishment.getType().name(),
                     TimeUtils.formatToStartOfDay(punishment.getFromDate()),
                     TimeUtils.formatToStartOfDay(punishment.getToDate()),
                     punishment.isPermanent(),
                     punishment.getMessage()
             ));
-        }));
+        });
         return true;
     }
 }

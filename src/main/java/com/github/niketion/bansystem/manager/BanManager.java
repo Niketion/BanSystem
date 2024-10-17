@@ -26,7 +26,7 @@ public class BanManager {
     }
 
     public void createBanPlayer(UUID uuid) {
-        if (!this.loadedPlayers.containsKey(uuid)) {
+        if (this.loadedPlayers.containsKey(uuid)) {
             return;
         }
 
@@ -52,6 +52,9 @@ public class BanManager {
         punishment.setMessage(message);
         punishment.setPermanent(permanent);
 
+        List<Punishment> punishments = player.getPunishments();
+        punishments.add(punishment);
+        player.setPunishments(punishments);
         plugin.getStorageManager().insertPunishment(punishment);
     }
 

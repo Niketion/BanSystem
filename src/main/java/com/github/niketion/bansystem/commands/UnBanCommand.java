@@ -58,6 +58,7 @@ public class UnBanCommand implements CommandExecutor {
         }
         activeBans.forEach(punishment -> {
             punishment.setToDate(System.currentTimeMillis());
+            punishment.setPermanent(false);
             this.storageManager.updatePunishment(punishment);
         });
 
