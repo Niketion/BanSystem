@@ -13,8 +13,8 @@ player-not-banned: "&ePlayer isn't banned."
 player-unbanned: "&ePlayer is now not banned."
 player-unmuted: "&ePlayer is now not muted."
 actions:
-  player-banned: "&cThe player %s is now banned"
-  player-muted: "&cThe player %s is now muted"
+  player-banned: "&cThe player %s is now banned. Duration: %s"
+  player-muted: "&cThe player %s is now muted. Duration: %s"
   player-kicked: "&cPlayer %s was kicked"
   victim-muted: "&cYou're now muted from %s. Reason %s"
 

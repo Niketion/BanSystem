@@ -44,6 +44,7 @@ public class KickCommand implements CommandExecutor {
             return false;
         }
 
+        commandSender.sendMessage(ConfigManager.Value.PLAYER_KICKED.formatted(playerName));
         manager.kickPlayer(banPlayer, commandSender.getName(), message);
         return true;
     }

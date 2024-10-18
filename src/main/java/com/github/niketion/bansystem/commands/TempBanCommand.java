@@ -54,6 +54,7 @@ public class TempBanCommand implements CommandExecutor {
             return false;
         }
 
+        commandSender.sendMessage(ConfigManager.Value.PLAYER_BANNED.formatted(playerName, strings[1]));
         manager.createPunishment(banPlayer, commandSender.getName(), Punishment.Type.BAN, message, duration);
         return true;
     }

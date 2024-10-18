@@ -29,33 +29,42 @@ public class BanSystemCommand implements CommandExecutor {
     public boolean onCommand(@NotNull CommandSender commandSender, @NotNull Command command, @NotNull String s, @NotNull String[] strings) {
         if (strings.length < 2) {
             commandSender.sendMessage("/bansystem history <player>");
+            commandSender.sendMessage("/bansystem reload");
             return false;
         }
 
-        if (!strings[0].equalsIgnoreCase("history")) {
-            return false;
+        if (strings[0].equalsIgnoreCase("history")) {
+            String playerName = strings[1];
+            UUID uuid = Bukkit.getOfflinePlayer(playerName).getUniqueId();
+            BanPlayer banPlayer = this.manager.getBanPlayer(uuid);
+
+            if (banPlayer == null || banPlayer.getPunishments().isEmpty()) {
+                commandSender.sendMessage(ConfigManager.Value.PLAYER_NOT_FOUND.toString());
+                return false;
+            }
+
+            banPlayer.getPunishments().forEach((punishment) -> {
+                commandSender.sendMessage(String.format("* (ID %d) Staffer: %s, Type: %s, fromDate: %s, toDate: %s, permanent: %s, message: %s",
+                        punishment.getId(),  // Assuming getId() returns an int
+                        punishment.getStaffer(), // Correctly included staffer
+                        punishment.getType().name(),
+                        TimeUtils.formatToStartOfDay(punishment.getFromDate()),
+                        TimeUtils.formatToStartOfDay(punishment.getToDate()),
+                        punishment.isPermanent(),
+                        punishment.getMessage()
+                ));
+            });
+            return true;
         }
 
-        String playerName = strings[1];
-        UUID uuid = Bukkit.getOfflinePlayer(playerName).getUniqueId();
-        BanPlayer banPlayer = this.manager.getBanPlayer(uuid);
-
-        if (banPlayer == null || banPlayer.getPunishments().isEmpty()) {
-            commandSender.sendMessage(ConfigManager.Value.PLAYER_NOT_FOUND.toString());
-            return false;
+        if (strings[0].equalsIgnoreCase("reload")) {
+            configManager.reloadConfig();
+            commandSender.sendMessage("Config reloaded");
+            return true;
         }
 
-        banPlayer.getPunishments().forEach((punishment) -> {
-            commandSender.sendMessage(String.format("* (ID %d) Staffer: %s, Type: %s, fromDate: %s, toDate: %s, permanent: %s, message: %s",
-                    punishment.getId(),  // Assuming getId() returns an int
-                    punishment.getStaffer(), // Correctly included staffer
-                    punishment.getType().name(),
-                    TimeUtils.formatToStartOfDay(punishment.getFromDate()),
-                    TimeUtils.formatToStartOfDay(punishment.getToDate()),
-                    punishment.isPermanent(),
-                    punishment.getMessage()
-            ));
-        });
-        return true;
+        commandSender.sendMessage("/bansystem history <player>");
+        commandSender.sendMessage("/bansystem reload");
+        return false;
     }
 }

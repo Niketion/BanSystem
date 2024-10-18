@@ -14,6 +14,10 @@ public class ConfigManager {
         plugin.saveDefaultConfig();
     }
 
+    public void reloadConfig() {
+        plugin.reloadConfig();
+    }
+
     public enum Value {
         BAN_USAGE("usages.ban"),
         TEMPBAN_USAGE("usages.tempban"),
@@ -28,19 +32,25 @@ public class ConfigManager {
         PLAYER_UNBANNED("player-unbanned"),
         PLAYER_NOT_BANNED("player-not-banned"),
         PLAYER_NOT_MUTED("player-not-muted"),
-        PLAYER_BANNED(""),
-        PLAYER_MUTED(""),
-        PLAYER_KICKED(""),
-        VICTIM_MUTED("");
+        PLAYER_BANNED("actions.player-banned"),
+        PLAYER_MUTED("actions.player-muted"),
+        PLAYER_KICKED("actions.player-kicked"),
+        VICTIM_MUTED("actions.victim-muted");
 
         private String path;
         Value(String path) {
             this.path = path;
         }
-        // TODO: REPLACES
+
         @Override
         public String toString() {
             return ChatColor.translateAlternateColorCodes('&', plugin.getConfig().getString(this.path));
+        }
+
+        public String formatted(Object... args) {
+            String message = plugin.getConfig().getString(this.path);
+            message = ChatColor.translateAlternateColorCodes('&', message);
+            return String.format(message, args);
         }
     }
 }

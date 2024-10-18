@@ -45,6 +45,7 @@ public class BanCommand implements CommandExecutor {
             return false;
         }
 
+        commandSender.sendMessage(ConfigManager.Value.PLAYER_BANNED.formatted(playerName, "permanently"));
         manager.createPunishment(banPlayer, commandSender.getName(), Punishment.Type.BAN, message, true);
         return true;
     }

@@ -5,9 +5,11 @@ import com.github.niketion.bansystem.manager.ConfigManager;
 import com.github.niketion.bansystem.model.BanPlayer;
 import com.github.niketion.bansystem.model.Punishment;
 import org.bukkit.Bukkit;
+import org.bukkit.OfflinePlayer;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
+import org.bukkit.entity.Player;
 import org.jetbrains.annotations.NotNull;
 
 import java.util.Arrays;
@@ -36,6 +38,7 @@ public class MuteCommand implements CommandExecutor {
         String playerName = strings[0];
         String message = String.join(" ", Arrays.copyOfRange(strings, 1, strings.length));
 
+        OfflinePlayer offlinePlayer = Bukkit.getOfflinePlayer(playerName);
         UUID uuid = Bukkit.getOfflinePlayer(playerName).getUniqueId();
         BanPlayer banPlayer = this.manager.getBanPlayer(uuid);
 
@@ -44,6 +47,12 @@ public class MuteCommand implements CommandExecutor {
             return false;
         }
 
+        if (offlinePlayer.isOnline()) {
+            Player player = offlinePlayer.getPlayer();
+            if (player != null) player.sendMessage(ConfigManager.Value.VICTIM_MUTED.formatted(commandSender.getName(), message));
+        }
+
+        commandSender.sendMessage(ConfigManager.Value.PLAYER_MUTED.formatted(playerName, "permanently"));
         manager.createPunishment(banPlayer, commandSender.getName(), Punishment.Type.MUTE, message, true);
         return true;
     }
