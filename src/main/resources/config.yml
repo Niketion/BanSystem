@@ -1,0 +1,9 @@
+usages:
+  mute: '&6/mute <player> <message>'
+  ban: '&6/ban <player> <message>'
+  tempban: '&6/tempban <player> <duration><s/m/h/d> <message>'
+  tempmute: '&6/tempmute <player> <duration><s/m/h/d> <message>'
+  kick: '&6/kick <player> <message>'
+  unmute: '&6/unmute <player>'
+  unban: '&6/unban <player>'
+

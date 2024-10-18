@@ -4,12 +4,14 @@ import com.github.niketion.bansystem.commands.*;
 import com.github.niketion.bansystem.listeners.ChatListener;
 import com.github.niketion.bansystem.listeners.ConnectionListener;
 import com.github.niketion.bansystem.manager.BanManager;
+import com.github.niketion.bansystem.manager.ConfigManager;
 import com.github.niketion.bansystem.manager.StorageManager;
 import lombok.Getter;
 import org.bukkit.event.Listener;
 import org.bukkit.plugin.java.JavaPlugin;
 
 public final class BanSystemPlugin extends JavaPlugin {
+    private ConfigManager configManager;
     private StorageManager storageManager;
     private BanManager banManager;
 
@@ -18,6 +20,7 @@ public final class BanSystemPlugin extends JavaPlugin {
         this.banManager = new BanManager(this);
 
         this.storageManager = new StorageManager(this, this.banManager);
+        this.configManager = new ConfigManager(this);
         this.storageManager.initStorage();
         this.storageManager.loadAllBanPlayers();
 

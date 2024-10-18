@@ -1,5 +1,6 @@
 package com.github.niketion.bansystem.commands;
 
+import com.github.niketion.bansystem.BanSystemPlugin;
 import com.github.niketion.bansystem.manager.BanManager;
 import com.github.niketion.bansystem.model.BanPlayer;
 import com.github.niketion.bansystem.model.Punishment;
@@ -14,8 +15,9 @@ import java.util.UUID;
 
 public class BanCommand implements CommandExecutor {
     private BanManager manager;
+    private BanSystemPlugin plugin;
 
-    public BanCommand(BanManager manager) {
+    public BanCommand(BanSystemPlugin plugin, BanManager manager) {
         this.manager = manager;
     }
 
