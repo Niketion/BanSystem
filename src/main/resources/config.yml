@@ -6,4 +6,15 @@ usages:
   kick: '&6/kick <player> <message>'
   unmute: '&6/unmute <player>'
   unban: '&6/unban <player>'
+player-not-found: "&cPlayer not found..."
+formatting-error: "&cError in formatting..."
+player-not-muted: "&ePlayer isn't muted."
+player-not-banned: "&ePlayer isn't banned."
+player-unbanned: "&ePlayer is now not banned."
+player-unmuted: "&ePlayer is now not muted."
+actions:
+  player-banned: "&cThe player %s is now banned"
+  player-muted: "&cThe player %s is now muted"
+  player-kicked: "&cPlayer %s was kicked"
+  victim-muted: "&cYou're now muted from %s. Reason %s"
 

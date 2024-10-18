@@ -1,6 +1,7 @@
 package com.github.niketion.bansystem.commands;
 
 import com.github.niketion.bansystem.manager.BanManager;
+import com.github.niketion.bansystem.manager.ConfigManager;
 import com.github.niketion.bansystem.manager.StorageManager;
 import com.github.niketion.bansystem.model.BanPlayer;
 import com.github.niketion.bansystem.model.Punishment;
@@ -19,11 +20,13 @@ import java.util.stream.Stream;
 
 public class UnMuteCommand implements CommandExecutor {
     private BanManager manager;
+    private ConfigManager configManager;
     private StorageManager storageManager;
 
-    public UnMuteCommand(BanManager manager, StorageManager storageManager) {
+    public UnMuteCommand(ConfigManager configManager, BanManager manager, StorageManager storageManager) {
         this.manager = manager;
         this.storageManager = storageManager;
+        this.configManager = configManager;
     }
 
     @Override
@@ -33,7 +36,7 @@ public class UnMuteCommand implements CommandExecutor {
         }
 
         if (strings.length < 1) {
-            commandSender.sendMessage("/unmute <player>");
+            commandSender.sendMessage(ConfigManager.Value.UNMUTE_USAGE.toString());
             return false;
         }
 
@@ -43,7 +46,7 @@ public class UnMuteCommand implements CommandExecutor {
         BanPlayer banPlayer = this.manager.getBanPlayer(uuid);
 
         if (banPlayer == null) {
-            commandSender.sendMessage("Player not found...");
+            commandSender.sendMessage(ConfigManager.Value.PLAYER_NOT_FOUND.toString());
             return false;
         }
 
@@ -53,7 +56,7 @@ public class UnMuteCommand implements CommandExecutor {
                 .collect(Collectors.toList());
 
         if (activeBans.isEmpty()) {
-            commandSender.sendMessage("Player isn't muted.");
+            commandSender.sendMessage(ConfigManager.Value.PLAYER_NOT_MUTED.toString());
             return true;
         }
         activeBans.forEach(punishment -> {
@@ -62,7 +65,7 @@ public class UnMuteCommand implements CommandExecutor {
             this.storageManager.updatePunishment(punishment);
         });
 
-        commandSender.sendMessage("Player is now not muted.");
+        commandSender.sendMessage(ConfigManager.Value.PLAYER_UNMUTED.toString());
         return true;
     }
 }

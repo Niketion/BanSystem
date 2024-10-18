@@ -2,6 +2,7 @@ package com.github.niketion.bansystem.commands;
 
 import com.github.niketion.bansystem.BanSystemPlugin;
 import com.github.niketion.bansystem.manager.BanManager;
+import com.github.niketion.bansystem.manager.ConfigManager;
 import com.github.niketion.bansystem.model.BanPlayer;
 import com.github.niketion.bansystem.model.Punishment;
 import org.bukkit.Bukkit;
@@ -15,9 +16,10 @@ import java.util.UUID;
 
 public class BanCommand implements CommandExecutor {
     private BanManager manager;
-    private BanSystemPlugin plugin;
+    private ConfigManager configManager;
 
-    public BanCommand(BanSystemPlugin plugin, BanManager manager) {
+    public BanCommand(ConfigManager configManager, BanManager manager) {
+        this.configManager = configManager;
         this.manager = manager;
     }
 
@@ -28,7 +30,7 @@ public class BanCommand implements CommandExecutor {
         }
 
         if (strings.length < 2) {
-            commandSender.sendMessage("/ban <player> <message>");
+            commandSender.sendMessage(ConfigManager.Value.BAN_USAGE.toString());
             return false;
         }
 
@@ -39,7 +41,7 @@ public class BanCommand implements CommandExecutor {
         BanPlayer banPlayer = this.manager.getBanPlayer(uuid);
 
         if (banPlayer == null) {
-            commandSender.sendMessage("Player not found...");
+            commandSender.sendMessage(ConfigManager.Value.PLAYER_NOT_FOUND.toString());
             return false;
         }
 

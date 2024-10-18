@@ -1,6 +1,7 @@
 package com.github.niketion.bansystem.commands;
 
 import com.github.niketion.bansystem.manager.BanManager;
+import com.github.niketion.bansystem.manager.ConfigManager;
 import com.github.niketion.bansystem.model.BanPlayer;
 import com.github.niketion.bansystem.model.Punishment;
 import org.bukkit.Bukkit;
@@ -14,9 +15,11 @@ import java.util.UUID;
 
 public class KickCommand implements CommandExecutor {
     private BanManager manager;
+    private ConfigManager configManager;
 
-    public KickCommand(BanManager manager) {
+    public KickCommand(ConfigManager configManager, BanManager manager) {
         this.manager = manager;
+        this.configManager = configManager;
     }
 
     @Override
@@ -26,7 +29,7 @@ public class KickCommand implements CommandExecutor {
         }
 
         if (strings.length < 2) {
-            commandSender.sendMessage("/kick <player> <message>");
+            commandSender.sendMessage(ConfigManager.Value.KICK_USAGE.toString());
             return false;
         }
 
@@ -37,7 +40,7 @@ public class KickCommand implements CommandExecutor {
         BanPlayer banPlayer = this.manager.getBanPlayer(uuid);
 
         if (banPlayer == null) {
-            commandSender.sendMessage("Player not found...");
+            commandSender.sendMessage(ConfigManager.Value.PLAYER_NOT_FOUND.toString());
             return false;
         }
 

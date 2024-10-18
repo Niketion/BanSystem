@@ -21,6 +21,7 @@ public final class BanSystemPlugin extends JavaPlugin {
 
         this.storageManager = new StorageManager(this, this.banManager);
         this.configManager = new ConfigManager(this);
+        this.configManager.initConfig();
         this.storageManager.initStorage();
         this.storageManager.loadAllBanPlayers();
 
@@ -29,14 +30,14 @@ public final class BanSystemPlugin extends JavaPlugin {
                 new ConnectionListener(this, banManager)
         );
 
-        getCommand("ban").setExecutor(new BanCommand(banManager));
-        getCommand("kick").setExecutor(new KickCommand(banManager));
-        getCommand("mute").setExecutor(new MuteCommand(banManager));
-        getCommand("tempban").setExecutor(new TempBanCommand(banManager));
-        getCommand("tempmute").setExecutor(new TempMuteCommand(banManager));
-        getCommand("bansystem").setExecutor(new BanSystemCommand(banManager, storageManager));
-        getCommand("unban").setExecutor(new UnBanCommand(banManager, storageManager));
-        getCommand("unmute").setExecutor(new UnMuteCommand(banManager, storageManager));
+        getCommand("ban").setExecutor(new BanCommand(configManager, banManager));
+        getCommand("kick").setExecutor(new KickCommand(configManager,banManager));
+        getCommand("mute").setExecutor(new MuteCommand(configManager,banManager));
+        getCommand("tempban").setExecutor(new TempBanCommand(configManager,banManager));
+        getCommand("tempmute").setExecutor(new TempMuteCommand(configManager,banManager));
+        getCommand("bansystem").setExecutor(new BanSystemCommand(configManager,banManager, storageManager));
+        getCommand("unban").setExecutor(new UnBanCommand(configManager,banManager, storageManager));
+        getCommand("unmute").setExecutor(new UnMuteCommand(configManager,banManager, storageManager));
     }
 
     @Override

@@ -1,6 +1,7 @@
 package com.github.niketion.bansystem.commands;
 
 import com.github.niketion.bansystem.manager.BanManager;
+import com.github.niketion.bansystem.manager.ConfigManager;
 import com.github.niketion.bansystem.manager.StorageManager;
 import com.github.niketion.bansystem.model.BanPlayer;
 import com.github.niketion.bansystem.model.Punishment;
@@ -19,11 +20,13 @@ import java.util.stream.Stream;
 
 public class UnBanCommand implements CommandExecutor {
     private BanManager manager;
+    private ConfigManager configManager;
     private StorageManager storageManager;
 
-    public UnBanCommand(BanManager manager, StorageManager storageManager) {
+    public UnBanCommand(ConfigManager configManager, BanManager manager, StorageManager storageManager) {
         this.manager = manager;
         this.storageManager = storageManager;
+        this.configManager = configManager;
     }
 
     @Override
@@ -33,7 +36,7 @@ public class UnBanCommand implements CommandExecutor {
         }
 
         if (strings.length < 1) {
-            commandSender.sendMessage("/unban <player>");
+            commandSender.sendMessage(ConfigManager.Value.UNBAN_USAGE.toString());
             return false;
         }
 
@@ -43,7 +46,7 @@ public class UnBanCommand implements CommandExecutor {
         BanPlayer banPlayer = this.manager.getBanPlayer(uuid);
 
         if (banPlayer == null) {
-            commandSender.sendMessage("Player not found...");
+            commandSender.sendMessage(ConfigManager.Value.PLAYER_NOT_FOUND.toString());
             return false;
         }
 
@@ -53,7 +56,7 @@ public class UnBanCommand implements CommandExecutor {
                 .collect(Collectors.toList());
 
         if (activeBans.isEmpty()) {
-            commandSender.sendMessage("Player isn't banned.");
+            commandSender.sendMessage(ConfigManager.Value.PLAYER_NOT_BANNED.toString());
             return true;
         }
         activeBans.forEach(punishment -> {
@@ -62,7 +65,7 @@ public class UnBanCommand implements CommandExecutor {
             this.storageManager.updatePunishment(punishment);
         });
 
-        commandSender.sendMessage("Player is now not banned.");
+        commandSender.sendMessage(ConfigManager.Value.PLAYER_UNBANNED.toString());
         return true;
     }
 }

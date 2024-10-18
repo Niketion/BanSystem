@@ -20,13 +20,24 @@ public class ConfigManager {
         TEMPMUTE_USAGE("usages.tempmute"),
         MUTE_USAGE("usages.mute"),
         UNBAN_USAGE("usages.unban"),
-        KICK_USAGE("usages.kick");
+        UNMUTE_USAGE("usages.unmute"),
+        PLAYER_NOT_FOUND("player-not-found"),
+        FORMATTING_ERROR("formatting-error"),
+        KICK_USAGE("usages.kick"),
+        PLAYER_UNMUTED("player-unmuted"),
+        PLAYER_UNBANNED("player-unbanned"),
+        PLAYER_NOT_BANNED("player-not-banned"),
+        PLAYER_NOT_MUTED("player-not-muted"),
+        PLAYER_BANNED(""),
+        PLAYER_MUTED(""),
+        PLAYER_KICKED(""),
+        VICTIM_MUTED("");
 
         private String path;
         Value(String path) {
             this.path = path;
         }
-
+        // TODO: REPLACES
         @Override
         public String toString() {
             return ChatColor.translateAlternateColorCodes('&', plugin.getConfig().getString(this.path));

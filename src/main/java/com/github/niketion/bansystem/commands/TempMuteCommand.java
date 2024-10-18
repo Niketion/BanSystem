@@ -1,6 +1,7 @@
 package com.github.niketion.bansystem.commands;
 
 import com.github.niketion.bansystem.manager.BanManager;
+import com.github.niketion.bansystem.manager.ConfigManager;
 import com.github.niketion.bansystem.model.BanPlayer;
 import com.github.niketion.bansystem.model.Punishment;
 import com.github.niketion.bansystem.utils.TimeUtils;
@@ -15,9 +16,11 @@ import java.util.UUID;
 
 public class TempMuteCommand implements CommandExecutor {
     private BanManager manager;
+    private ConfigManager configManager;
 
-    public TempMuteCommand(BanManager manager) {
+    public TempMuteCommand(ConfigManager configManager, BanManager manager) {
         this.manager = manager;
+        this.configManager = configManager;
     }
 
     @Override
@@ -27,7 +30,7 @@ public class TempMuteCommand implements CommandExecutor {
         }
 
         if (strings.length < 3) {
-            commandSender.sendMessage("/tempmute <player> <duration><s/m/h/d> <message>");
+            commandSender.sendMessage(ConfigManager.Value.TEMPMUTE_USAGE.toString());
             return false;
         }
 
@@ -37,7 +40,7 @@ public class TempMuteCommand implements CommandExecutor {
         try {
             duration = TimeUtils.parseDuration(strings[1]);
         } catch (IllegalArgumentException e) {
-            commandSender.sendMessage("Error in formatting.");
+            commandSender.sendMessage(ConfigManager.Value.FORMATTING_ERROR.toString());
             return false;
         }
 
@@ -47,7 +50,7 @@ public class TempMuteCommand implements CommandExecutor {
         BanPlayer banPlayer = this.manager.getBanPlayer(uuid);
 
         if (banPlayer == null) {
-            commandSender.sendMessage("Player not found...");
+            commandSender.sendMessage(ConfigManager.Value.PLAYER_NOT_FOUND.toString());
             return false;
         }
 

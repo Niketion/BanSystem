@@ -3,6 +3,7 @@ package com.github.niketion.bansystem.model;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.Setter;
+import org.bukkit.ChatColor;
 
 import java.util.UUID;
 
@@ -79,7 +80,7 @@ public class Punishment {
     }
 
     public String getMessage() {
-        return message;
+        return ChatColor.translateAlternateColorCodes('&', message);
     }
 
     public void setMessage(String message) {

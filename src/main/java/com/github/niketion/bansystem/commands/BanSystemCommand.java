@@ -1,6 +1,7 @@
 package com.github.niketion.bansystem.commands;
 
 import com.github.niketion.bansystem.manager.BanManager;
+import com.github.niketion.bansystem.manager.ConfigManager;
 import com.github.niketion.bansystem.manager.StorageManager;
 import com.github.niketion.bansystem.model.BanPlayer;
 import com.github.niketion.bansystem.utils.TimeUtils;
@@ -15,11 +16,13 @@ import java.util.UUID;
 
 public class BanSystemCommand implements CommandExecutor {
     private BanManager manager;
+    private ConfigManager configManager;
     private StorageManager storageManager;
 
-    public BanSystemCommand(BanManager manager, StorageManager storageManager) {
+    public BanSystemCommand(ConfigManager configManager, BanManager manager, StorageManager storageManager) {
         this.manager = manager;
         this.storageManager = storageManager;
+        this.configManager = configManager;
     }
 
     @Override
@@ -38,7 +41,7 @@ public class BanSystemCommand implements CommandExecutor {
         BanPlayer banPlayer = this.manager.getBanPlayer(uuid);
 
         if (banPlayer == null || banPlayer.getPunishments().isEmpty()) {
-            commandSender.sendMessage("Player not found or no history...");
+            commandSender.sendMessage(ConfigManager.Value.PLAYER_NOT_FOUND.toString());
             return false;
         }
 
